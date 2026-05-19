@@ -17,7 +17,7 @@ class HttpClientTest extends TestCase
 
         $url = $http->buildModelUrl('google', 'gemini-3.1-flash-lite-preview', 'generateContent');
 
-        $this->assertStringContainsString('publishers/google/models/gemini-3.1-flash-lite-preview:generateContent', $url);
+        $this->assertStringContainsString('models/gemini-3.1-flash-lite-preview:generateContent', $url);
         $this->assertStringContainsString('key=my-api-key', $url);
         $this->assertStringNotContainsString('projects/', $url);
     }
@@ -28,7 +28,7 @@ class HttpClientTest extends TestCase
 
         $url = $http->buildModelUrl('anthropic', 'claude-sonnet-4-6', 'rawPredict');
 
-        $this->assertStringContainsString('projects/my-project', $url);
+        $this->assertStringContainsString('https://us-central1-aiplatform.googleapis.com/v1/projects/my-project', $url);
         $this->assertStringContainsString('locations/us-central1', $url);
         $this->assertStringContainsString('publishers/anthropic/models/claude-sonnet-4-6:rawPredict', $url);
         $this->assertStringNotContainsString('key=', $url);

@@ -222,19 +222,21 @@ class HttpClient
     public function buildModelUrl(string $publisher, string $model, string $action): string
     {
         if ($this->apiKey) {
+            // Express mode uses generativelanguage endpoint
             return \sprintf(
-                "%s/publishers/%s/models/%s:%s?key=%s",
-                self::BASE_URL,
-                $publisher,
+                "https://generativelanguage.googleapis.com/v1beta/models/%s:%s?key=%s",
                 $model,
                 $action,
                 $this->apiKey
             );
         }
 
+        // Cloud mode (Agent Platform / Vertex AI) uses region-specific aiplatform endpoints
+        $baseUrl = \sprintf('https://%s-aiplatform.googleapis.com/v1', $this->location);
+
         return \sprintf(
             "%s/projects/%s/locations/%s/publishers/%s/models/%s:%s",
-            self::BASE_URL,
+            $baseUrl,
             $this->projectId,
             $this->location,
             $publisher,

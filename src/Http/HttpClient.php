@@ -312,14 +312,14 @@ class HttpClient
     {
         return \array_merge(
             ['Content-Type: application/json'],
-            $this->buildAuthHeaders()
+            $this->getAuthHeaders()
         );
     }
 
     /**
      * Build only the auth header (used when Content-Type is set separately).
      */
-    private function buildAuthHeaders(): array
+    public function getAuthHeaders(): array
     {
         if ($this->accessToken) {
             return ["Authorization: Bearer {$this->accessToken}"];

@@ -282,13 +282,13 @@ class FileResource
             'file' => ['display_name' => $displayName],
         ]);
 
-        $headers = [
+        $headers = \array_merge([
             'X-Goog-Upload-Protocol: resumable',
             'X-Goog-Upload-Command: start',
             "X-Goog-Upload-Header-Content-Length: {$fileSize}",
             "X-Goog-Upload-Header-Content-Type: {$mimeType}",
             'Content-Type: application/json',
-        ];
+        ], $this->http->getAuthHeaders());
 
         $ch = \curl_init();
         \curl_setopt($ch, CURLOPT_URL, $initiateUrl);
@@ -341,12 +341,12 @@ class FileResource
             throw new \RuntimeException("Could not open file for reading: {$filePath}");
         }
 
-        $headers = [
+        $headers = \array_merge([
             "Content-Type: {$mimeType}",
             "Content-Length: {$fileSize}",
             'X-Goog-Upload-Offset: 0',
             'X-Goog-Upload-Command: upload, finalize',
-        ];
+        ], $this->http->getAuthHeaders());
 
         $ch = \curl_init();
         \curl_setopt($ch, CURLOPT_URL, $uploadUrl);
